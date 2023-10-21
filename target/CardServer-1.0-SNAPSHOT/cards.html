@@ -5,6 +5,7 @@
     <title>Part-List</title>
     <script src="scripts/jQuery.min.js"></script>
     <script src="scripts/bootstrap.min.js"></script>
+    <script src="scripts/jquery.cookie.js"></script>
     <script type="text/javascript" src="scripts/paging.js"></script>
     <script type="text/javascript" src="scripts/cards.js"></script>
     <link href="styles/bootstrap.min.css" rel="stylesheet" type="text/css">
@@ -16,7 +17,7 @@
 <select name="category" id="category-select"></select>
 
 <div>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddCategory" >
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddCategory">
         Добавление новой категории
     </button>
     <button type="button" class="btn btn-primary" id="delete_category">
@@ -39,10 +40,15 @@
 <div id="pagination" style="text-align: right;"></div>
 
 <div>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddCard" >
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddCard">
         Добавление новой карточки
     </button>
-
+</div>
+<br>
+<div>
+    <div class="pull-right">
+        <button type="button" class="btn btn-primary" id="btn_sign_out">Sign Out</button>
+    </div>
 </div>
 
 
@@ -132,10 +138,8 @@
 
 
 <script type="text/javascript">
-
     showTable();
-
-
 </script>
+
 </body>
 </html>
