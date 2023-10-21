@@ -9,7 +9,7 @@ $(document).ready(function () {
         let login = $('#registration_login').val();
         let name = $('#registration_name').val();
         let password = $('#registration_password').val();
-        if(login!=null&&name!=null&&password!=null) {
+        if(login!=""&&name!==""&&password!=="") {
             $.ajax({
                 type: "POST",
                 url: '/CardServer/users',
