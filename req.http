@@ -1,0 +1,22 @@
+GET http://localhost:8080/CardServer/cards?category=Rock
+content-type:application/json
+
+
+###
+PUT http://localhost:8080/CardServer/ categories?id=fhf
+content-type:application/json
+
+{
+  "name":"НеВодичка"
+}
+###
+DELETE http://localhost:8080/CardServer/ categories?id=1444
+content-type:application/json
+
+###
+PUT http://localhost:8080/CardServer/categories
+content-type:application/json
+
+{ "id": 33,
+  "name":"НеВодичка2"
+}
