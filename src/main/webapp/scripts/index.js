@@ -15,9 +15,11 @@ $(document).ready(function () {
                 url: '/CardServer/users',
                 data: {"login": login, "name":name, "password": password},
                 success: [function (result) {
+                    alert("Успешная регистрация");
                     $('#registration_login').val('');
                     $('#registration_name').val('');
                     $('#registration_password').val('');
+                    $('#modalRegistration').modal('hide');
 
                 }],
                 error: [function () {
@@ -38,13 +40,13 @@ $(document).ready(function () {
 
       if(login!=null&&pass!=null) {
           $.ajax({
-              type: "get",
-              url: '/CardServer/users',
+              type: "post",
+              url: '/CardServer/login',
               data: {"login": login, "password": pass},
               success: [function (result) {
                   $('#login_input').val('');
                   $('#password_input').val('');
-                 localStorage.setItem('userId', result.data.id);
+                // localStorage.setItem('userId', result.data.id);
                   window.location.href = 'http://localhost:8080/CardServer/cards.html';
 
               }],

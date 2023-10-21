@@ -2,41 +2,47 @@ let catRes;
 let cards;
 
 $(document).ready(function () {
-loadCategory();
+    loadCategory();
 
-$('#add_new_card').click(function (){
-    let categoryName = $('#category-select option:selected').text();
-    let question1 = $('#add_new_question').val();
-    let answer1 = $('#add_new_answer').val();
+    /**
+     * Добавление карточки в выбранную категорию из списка
+     */
+    $('#add_new_card').click(function () {
+        let categoryName = $('#category-select option:selected').text();
+        let question1 = $('#add_new_question').val();
+        let answer1 = $('#add_new_answer').val();
+        if (question1 != null && answer1 != null) {
+            $.ajax({
+                type: "POST",
+                url: `/CardServer/cards?category=${categoryName}`,
+                data: {"question": question1, "answer": answer1},
+                success: [function (result) {
+                    $('#add_new_question').val('');
+                    $('#add_new_answer').val('');
+                    location.reload();
+                    showTable();
+                }],
+                error: [function () {
+                    alert("error");
+                }]
+            });
+        } else {
+            alert("Введите вопрос и ответ!!!")
+        }
+    });
 
-
-    if (question1!= null&&answer1!=null) {
-        $.ajax({
-            type: "POST",
-            url: `/CardServer/cards?category=${categoryName}`,
-            data:  {"question": question1, "answer": answer1},
-            success: [function (result) {
-                $('#add_new_question').val('');
-                $('#add_new_answer').val('');
-                location.reload();
-                showTable();
-            }],
-            error: [function () {
-                alert("error");
-            }]
-        });
-    } else {
-        alert("Введите вопрос и ответ!!!")
-    }
-});
-
+    /**
+     * Добавление категории
+     */
     $('#add_new_category').click(function () {
         let categoryName = $('#add_new_name_category').val();
+        let cookie = $.cookie('user');
         if (categoryName != null) {
             $.ajax({
                 type: "POST",
                 url: '/CardServer/categories',
-                data: {"id": localStorage.userId, "category": categoryName},
+               // data: {"id": localStorage.userId, "category": categoryName},
+                data: {"id": cookie, "category": categoryName},
                 success: [function (result) {
                     $('#add_new_name_category').val('');
                     location.reload();
@@ -50,7 +56,9 @@ $('#add_new_card').click(function (){
         }
     });
 
-
+    /**
+     * Удаление категории
+     */
     $('#delete_category').click(function () {
         let categoryName = $('#category-select option:selected').text();
         // alert(categoryName);
@@ -72,16 +80,19 @@ $('#add_new_card').click(function (){
         }
     });
 
-
+    /**
+     * Перерисовка таблицы с карточками при событии изменения категории
+     */
     $('#category-select').change(function () {
         showTable();
     })
 
-
+    /**
+     * Обработчик для выбора открытия модального окна для изменения карточки или принятия решения о ее удалении
+     */
     $('tbody').on("click", "a", function () {
         let arr = $(this).attr('id').split('_');
         let id = Number(arr[1]);
-
         let value = arr[0];
         if (value === "change") {
             $('#modalChange').modal('show');
@@ -94,6 +105,9 @@ $('#add_new_card').click(function (){
         }
     });
 
+    /**
+     * Обработка событий для изменения карточки
+     */
     $('#change-card-button').click(function () {
         let answer = $('#change_answer').val();
         let question = $('#change_question').val();
@@ -106,11 +120,9 @@ $('#add_new_card').click(function (){
                 $('#change_answer').val('');
                 $('#change_question').val('');
                 $('#change_part_id').val('');
-
-                //document.querySelector('#modalChange').style.display = 'none';
                 $('#modalChange').modal('hide');
                 showTable();
-              //  location.reload();
+
             }],
             error: [function (e) {
                 alert("error");
@@ -119,10 +131,32 @@ $('#add_new_card').click(function (){
         });
     });
 
+    /**
+     * Метод для выхода и очистки хэша
+     */
 
+    $('#btn_sign_out').click(function () {
+        let cookie = $.cookie('user');
+        if(cookie === undefined){
+            alert('error111');
+        }else {
+            $.ajax({
+                type: 'PUT',
+                url: `/CardServer/login?id=${cookie}`,
+                success: [function () {
+                    $(location).attr('href', "http://localhost:8080/CardServer/");
+                }],
+                error: [function (e) {
+                    alert(JSON.stringify(e));
+                }]
+            });
+        }
+    });
 });
 
-
+/**
+ * Метод для отрисовки таблицы карточки
+ */
 function showTable() {
     let categoryName1 = $('#category-select option:selected').text();
     $("tbody").html("");
@@ -130,7 +164,7 @@ function showTable() {
         type: "GET",
         url: `/CardServer/cards?category=${categoryName1}`,
         success: [function (result) {
-             cards = JSON.parse(result.data);
+            cards = JSON.parse(result.data);
             for (let i = 0; i < cards.length; i++) {
                 let markup = "<tr>" +
                     "<td>" + cards[i].question + "</td>" +
@@ -148,7 +182,10 @@ function showTable() {
     });
 }
 
-
+/**
+ * Запрос для удаления карточки
+ * @param id
+ */
 function deletePart(id) {
     $.ajax({
         type: "DELETE",
@@ -162,11 +199,16 @@ function deletePart(id) {
     });
 }
 
-function loadCategory(){
+/**
+ * Запрос на заполнение выпадающего списка с категориями
+ */
+function loadCategory() {
+    let cookie = $.cookie('user');
     $.ajax({
         type: "get",
         url: '/CardServer/categories',
-        data: {"id": localStorage.userId},
+       // data: {"id": localStorage.userId},
+        data: {"id": cookie},
         success: [function (result) {
             catRes = JSON.parse(result.data);
             $('#category-select').append("<option value='' disabled selected>Выбери свою категорию</option>");

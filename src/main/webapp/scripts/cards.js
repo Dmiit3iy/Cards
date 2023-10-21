@@ -36,11 +36,14 @@ $(document).ready(function () {
      */
     $('#add_new_category').click(function () {
         let categoryName = $('#add_new_name_category').val();
+        let cookie = $.cookie('user');
         if (categoryName != null) {
             $.ajax({
                 type: "POST",
                 url: '/CardServer/categories',
-                data: {"id": localStorage.userId, "category": categoryName},
+                //Старая реализация
+                // data: {"id": localStorage.userId, "category": categoryName},
+                data: {"id": cookie, "category": categoryName},
                 success: [function (result) {
                     $('#add_new_name_category').val('');
                     location.reload();
@@ -129,7 +132,27 @@ $(document).ready(function () {
         });
     });
 
+    /**
+     * Метод для выхода и очистки хэша
+     */
 
+    $('#btn_sign_out').click(function () {
+        let cookie = $.cookie('user');
+        if(cookie === undefined){
+            alert('error111');
+        }else {
+            $.ajax({
+                type: 'PUT',
+                url: `/CardServer/login?id=${cookie}`,
+                success: [function () {
+                    $(location).attr('href', "http://localhost:8080/CardServer/");
+                }],
+                error: [function (e) {
+                    alert(JSON.stringify(e));
+                }]
+            });
+        }
+    });
 });
 
 /**
@@ -181,10 +204,13 @@ function deletePart(id) {
  * Запрос на заполнение выпадающего списка с категориями
  */
 function loadCategory() {
+    let cookie = $.cookie('user');
     $.ajax({
         type: "get",
         url: '/CardServer/categories',
-        data: {"id": localStorage.userId},
+        //Старая реализация
+       // data: {"id": localStorage.userId},
+        data: {"id": cookie},
         success: [function (result) {
             catRes = JSON.parse(result.data);
             $('#category-select').append("<option value='' disabled selected>Выбери свою категорию</option>");
