@@ -38,7 +38,8 @@ public class AuthorizationFilter implements Filter {
         System.out.println(request.getRequestURI());
 
         //URL Запроса/переадресации на Servlet входа
-        String loginURI = request.getContextPath() + "/login";
+        //String loginURI = request.getContextPath() + "/login";
+        String loginURI = request.getContextPath();
         String registerURI = request.getContextPath() + "/reg";
         //Если сессия ранее создана
         boolean loginRequest = request.getRequestURI().contains(loginURI);
