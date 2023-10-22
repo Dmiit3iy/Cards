@@ -1,8 +1,8 @@
-package filter;
+package com.dmiit3iy.filter;
 
 
-import DAO.DAO;
-import model.User;
+import com.dmiit3iy.DAO.DAO;
+import com.dmiit3iy.model.User;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -16,7 +16,6 @@ public class AuthorizationFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) {
-
     }
 
     @Override
@@ -38,8 +37,9 @@ public class AuthorizationFilter implements Filter {
         System.out.println(request.getRequestURI());
 
         //URL Запроса/переадресации на Servlet входа
-        String loginURI = request.getContextPath() + "/login";
-        String registerURI = request.getContextPath() + "/reg";
+        // String loginURI = request.getContextPath() + "/login";
+        String loginURI = request.getContextPath();
+        String registerURI = request.getContextPath() + "/users";
         //Если сессия ранее создана
         boolean loginRequest = request.getRequestURI().contains(loginURI);
         boolean registerRequest = request.getRequestURI().contains(registerURI);
@@ -55,6 +55,5 @@ public class AuthorizationFilter implements Filter {
 
     @Override
     public void destroy() {
-
     }
 }
