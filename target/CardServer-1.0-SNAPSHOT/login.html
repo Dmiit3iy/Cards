@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Part-List</title>
+    <script src="scripts/jQuery.min.js"></script>
+    <script src="scripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="scripts/paging.js"></script>
+    <script type="text/javascript" src="scripts/login.js"></script>
+
+    <link href="styles/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+</head>
+<body>
+
+<p><strong>Логин:</strong>
+    <input maxlength="25" class="input-group-text" size="40" name="login" id ="login_input"></p>
+
+<p><strong>Пароль:</strong>
+    <input type="password" class="input-group-text" maxlength="25" size="40" name="password" id = "password_input"></p>
+
+
+<div>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalRegistration" >
+        Регистрация
+    </button>
+    <button type="button" class="btn btn-outline-primary" id="entranсe_button" >
+        Вход
+    </button>
+</div>
+
+
+
+<!-- Modal Registration-->
+<div class="modal fade" id="modalRegistration" tabindex="-1" aria-labelledby="addRegistrationUser"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addRegistrationUser">Register a new user</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="registration_login" class="form-label">Login</label>
+                        <input type="text" class="form-control" id="registration_login" aria-describedby="Login">
+                    </div>
+                    <div class="mb-3">
+                        <label for="registration_name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="registration_name" aria-describedby="Name">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="registration_password" class="form-label">Password</label>
+                        <input type="text" class="form-control" id="registration_password" aria-describedby="Password">
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="registration_new_user">Registration</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

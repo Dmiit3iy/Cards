@@ -1,3 +1,4 @@
+
 GET http://localhost:8080/CardServer/cards?category=Rock
 content-type:application/json
 
